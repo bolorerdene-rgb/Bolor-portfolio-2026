@@ -1,0 +1,9 @@
+projects/*/data/*
+!projects/*/data/.gitkeep
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+kaggle.json
