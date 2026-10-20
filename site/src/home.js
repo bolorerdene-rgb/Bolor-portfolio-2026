@@ -15,13 +15,16 @@ const timeline = (rows) =>
         h("ul", {}, r.bullets.map((b) => h("li", {}, b)))))));
 
 main.append(
-  h("section", { class: "hero" }, h("div", { class: "wrap" },
-    h("div", { class: "eyebrow" }, `${profile.role} · portfolio`),
-    h("h1", {}, profile.headline),
-    h("p", { class: "lede" }, profile.lede),
-    h("div", { class: "cta" },
-      h("a", { class: "btn primary", href: "#projects" }, "See the live dashboards"),
-      profile.links.map((l) => h("a", { class: "btn", href: l.href }, l.label))))),
+  h("section", { class: "hero" }, h("div", { class: "wrap hero-grid" },
+    h("div", { class: "hero-text" },
+      h("div", { class: "eyebrow" }, `${profile.role} · portfolio`),
+      h("h1", {}, profile.headline),
+      h("p", { class: "lede" }, profile.lede),
+      h("div", { class: "cta" },
+        h("a", { class: "btn primary", href: "#projects" }, "See the live dashboards"),
+        profile.links.map((l) => h("a", { class: "btn", href: l.href }, l.label)))),
+    h("figure", { class: "hero-photo" },
+      h("img", { src: "./images/bolor.jpg", alt: `Portrait of ${profile.name}`, width: "1066", height: "1600", decoding: "async" })))),
 
   h("hr", { class: "rule" }),
   h("section", { class: "block", id: "about" }, h("div", { class: "wrap" },

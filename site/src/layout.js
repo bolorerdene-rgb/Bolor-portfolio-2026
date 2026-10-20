@@ -28,9 +28,7 @@ export function h(tag, attrs = {}, ...kids) {
 }
 
 function isDark() {
-  const t = document.documentElement.dataset.theme;
-  if (t) return t === "dark";
-  return matchMedia("(prefers-color-scheme: dark)").matches;
+  return document.documentElement.dataset.theme === "dark";
 }
 
 export function mountShell(page) {
@@ -42,10 +40,6 @@ export function mountShell(page) {
     const next = isDark() ? "light" : "dark";
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem("theme", next); } catch (e) {}
-    paint();
-    window.dispatchEvent(new Event("themechange"));
-  });
-  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
     paint();
     window.dispatchEvent(new Event("themechange"));
   });
