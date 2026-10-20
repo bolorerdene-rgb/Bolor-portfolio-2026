@@ -25,7 +25,7 @@ async function init() {
     d.failures.map((f) => h("option", { value: f.id, selected: f.id === fid }, `#${f.id} · ${f.time}`)));
   filters.append(
     h("label", {}, "Failure to inspect", select),
-    h("span", { class: "hint" }, "Scopes the sensor-trace chart. The other charts always show all seven failures."));
+    h("span", { class: "hint" }, "Scopes the sensor trace chart. The other charts always show all seven failures."));
 
   // ---------- 1. Recovery time per failure ----------
   const maxRec = [...d.failures].sort((a, z) => z.recovery_h - a.recovery_h)[0];
@@ -63,11 +63,11 @@ async function init() {
     }),
   });
 
-  // ---------- 2. Tuning trade-off ----------
+  // ---------- 2. Tuning tradeoff ----------
   const sw = [...d.sweep].sort((a, z) => a.false_per_30d - z.false_per_30d);
   addCard(dash, {
     title: "Loosening the rule catches more failures, but only by firing constantly",
-    sub: `Each pair of dots is one alert setting (drift threshold × number of sensors needed). Blue = failures flagged; orange = how often an alert is on in a random normal ${d.window_h}-hour window. A setting only means something when blue sits well above orange.`,
+    sub: `Each pair of dots is one alert setting (drift threshold × number of sensors needed). Blue = failures flagged; orange = how often an alert is on in a random normal ${d.window_h} hour window. A setting only means something when blue sits well above orange.`,
     height: 320,
     build: (t) => {
       const isChosen = (s) => s.thr === d.chosen.thr && s.k === d.chosen.k;
@@ -178,7 +178,7 @@ async function init() {
   const best = Object.entries(sh.n_shifted).sort((a, z) => z[1] - a[1])[0];
   addCard(dash, {
     title: `No sensor is a reliable tell: the most consistent moved clearly in only ${best[1]} of ${k.failures} failures`,
-    sub: "Change in each sensor over the last 3 hours before a failure vs. its level 12–48 hours earlier, in standard deviations. Blue = rose, red = fell.",
+    sub: "Change in each sensor over the last 3 hours before a failure vs. its level 12 to 48 hours earlier, in standard deviations. Blue = rose, red = fell.",
     height: 400,
     build: (t) => ({
       ...base(t),
@@ -241,7 +241,7 @@ async function init() {
   recalc();
   dash.append(h("section", { class: "card w12" },
     h("div", { class: "card-head" }, h("div", {},
-      h("h3", {}, "What is the warning worth? An adjustable downtime-cost model"),
+      h("h3", {}, "What is the warning worth? An adjustable downtime cost model"),
       h("p", { class: "sub" }, `The ${coveredH.toFixed(0)} downtime hours come from the data. The dollar inputs on the left are illustrative placeholders, so replace them with a real plant's numbers.`))),
     h("div", { class: "calc", style: "margin-top:16px" },
       h("div", { class: "inputs" },

@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from common import ROOT, dump
+from common import ROOT, dump, month_label, day_label
 
 raw = pd.read_csv(ROOT / "projects/02-uk-retail-rfm/data/uk_retail.csv", encoding="latin1")
 raw["InvoiceDate"] = pd.to_datetime(raw.InvoiceDate, format="%m/%d/%Y %H:%M")
@@ -19,7 +19,7 @@ steps = [("Raw rows", len(raw))]
 raw["month"] = raw.InvoiceDate.dt.to_period("M").astype(str)
 gross = raw[~raw.cancel & (raw.revenue > 0)].groupby("month").revenue.sum()
 ret = -raw[raw.cancel].groupby("month").revenue.sum()
-out["returns"] = [{"month": m, "gross": int(gross[m]), "returned": int(ret.get(m, 0)),
+out["returns"] = [{"month": month_label(m), "gross": int(gross[m]), "returned": int(ret.get(m, 0)),
                    "return_pct": r(ret.get(m, 0) / gross[m] * 100, 1)} for m in gross.index]
 
 n0 = len(raw)
@@ -45,14 +45,14 @@ out["kpis"] = {
     "orders": int(df.InvoiceNo.nunique()),
     "aov": r(df.groupby("InvoiceNo").revenue.sum().mean(), 1),
     "uk_share": r(df[df.Country == "United Kingdom"].revenue.sum() / df.revenue.sum() * 100, 1),
-    "start": str(df.InvoiceDate.min().date()), "end": str(df.InvoiceDate.max().date()),
+    "start": day_label(df.InvoiceDate.min()), "end": day_label(df.InvoiceDate.max()),
     "missing_id_pct": r(raw.CustomerID.isna().mean() * 100, 1),
     "missing_id_rev_pct": r(full[full.CustomerID.isna()].revenue.sum() / full.revenue.sum() * 100, 1),
     "rows_kept_pct": r(len(df) / n0 * 100, 1),
 }
 
 mo = df.groupby("month").agg(revenue=("revenue", "sum"), orders=("InvoiceNo", "nunique"), customers=("CustomerID", "nunique"))
-out["monthly"] = [{"month": m, "revenue": int(v.revenue), "orders": int(v.orders), "customers": int(v.customers),
+out["monthly"] = [{"month": month_label(m), "revenue": int(v.revenue), "orders": int(v.orders), "customers": int(v.customers),
                    "partial": m > last_full} for m, v in mo.iterrows()]
 
 # ---------- RFM ----------
@@ -95,7 +95,7 @@ df["period"] = (df.InvoiceDate.dt.to_period("M") - df.cohort).apply(lambda x: x.
 coh = df[df.cohort <= "2011-11"].groupby(["cohort", "period"]).CustomerID.nunique().unstack(fill_value=0)
 size = coh[0]
 ret_tab = coh.div(size, axis=0) * 100
-cohorts = [str(c) for c in ret_tab.index]
+cohorts = [month_label(c) for c in ret_tab.index]
 cells = []
 for yi, c in enumerate(ret_tab.index):
     for p in range(ret_tab.shape[1]):
@@ -113,7 +113,7 @@ out["cohort_facts"] = {
 cn = df[df.Country != "United Kingdom"].groupby("Country").revenue.sum().sort_values(ascending=False).head(10)
 out["countries"] = [{"country": k, "revenue": int(v)} for k, v in cn.items()]
 tp = df.groupby("Description").agg(revenue=("revenue", "sum"), units=("Quantity", "sum")).sort_values("revenue", ascending=False).head(10)
-out["products"] = [{"name": k.title(), "revenue": int(v.revenue), "units": int(v.units)} for k, v in tp.iterrows()]
+out["products"] = [{"name": k.title().replace("-", " "), "revenue": int(v.revenue), "units": int(v.units)} for k, v in tp.iterrows()]
 inv = df.groupby("InvoiceNo").agg(dt=("InvoiceDate", "first"), rev=("revenue", "sum"))
 inv["dow"] = inv.dt.dt.dayofweek
 inv["hour"] = inv.dt.dt.hour

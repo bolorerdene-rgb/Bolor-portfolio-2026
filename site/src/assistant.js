@@ -69,7 +69,7 @@ function fallback(ask, page) {
   const chips = suggestionsFor(page).slice(0, 4);
   return h("div", { class: "asst-card" },
     h("div", { class: "asst-body" },
-      h("p", {}, "I couldn't find that in the write-ups on this site, and I'd rather say so than guess. Try asking about a project's findings, the problems I hit, my skills or my background."),
+      h("p", {}, "I couldn't find that in the writeups on this site, and I'd rather say so than guess. Try asking about a project's findings, the problems I hit, my skills or my background."),
       h("p", {}, "Or ask me directly: ", h("a", { href: `mailto:${CONTACT}` }, CONTACT))),
     h("div", { class: "asst-chips" }, chips.map((c) => h("button", { type: "button", class: "asst-chip", onclick: () => ask(c.q) }, c.label))));
 }
@@ -85,7 +85,7 @@ export async function toggleAssistant({ page, launcher }) {
   const close = h("button", { type: "button", class: "icon-btn asst-close", "aria-label": "Close assistant" }, "×");
   panel = h("aside", { id: "asst-panel", class: "asst-panel", role: "dialog", "aria-label": "Ask about my projects", hidden: true },
     h("div", { class: "asst-head" }, h("div", {}, h("strong", {}, "Ask about my projects"),
-      h("p", {}, "Answers come from the write-ups and numbers on this site. Nothing is generated or sent anywhere.")), close),
+      h("p", {}, "Answers come from the writeups and numbers on this site. Nothing is generated or sent anywhere.")), close),
     log, chipBox, form);
   document.body.append(panel);
 

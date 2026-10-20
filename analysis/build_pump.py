@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from common import ROOT, dump
+from common import ROOT, dump, day_label
 
 H = pd.Timedelta
 raw = pd.read_csv(ROOT / "projects/03-pump-predictive-maintenance/data/sensor.csv", index_col=0, parse_dates=["timestamp"]).set_index("timestamp")
@@ -98,7 +98,7 @@ for i, f in enumerate(fails):
         first_true = w.loc[run_start:][w.loc[run_start:]].index[0]
         lead = (f - first_true).total_seconds() / 3600
         capped = pos == 0
-    failures.append({"id": i + 1, "time": f.strftime("%b %d %H:%M"), "date": f.strftime("%Y-%m-%d"),
+    failures.append({"id": i + 1, "time": f.strftime("%b %d %H:%M"), "date": day_label(f, year=False),
                      "recovery_h": r(rec_h), "lead_h": None if lead is None else r(lead),
                      "capped": capped, "hit": recent_hit,
                      "max_drift": int(cnt.loc[f - H(hours=72):f].max())})
@@ -121,7 +121,7 @@ for i, f in enumerate(fails):
 T = pd.DataFrame(shift)
 score = (T.abs() > 1.5).sum(axis=1) * 1000 + T.abs().clip(upper=50).sum(axis=1)
 top = list(score.sort_values(ascending=False).index[:12])
-out["shift"] = {"sensors": top, "failures": [f["date"][5:] for f in failures],
+out["shift"] = {"sensors": top, "failures": [f["date"] for f in failures],
                 "cells": [[j, si, r(max(-25, min(25, T.loc[s, j])))] for si, s in enumerate(top) for j in range(len(fails))],
                 "n_shifted": {s: int((T.loc[s].abs() > 1.5).sum()) for s in top}}
 
@@ -143,7 +143,7 @@ mm = miss[miss > 0].sort_values(ascending=False).head(12)
 out["missing"] = [{"sensor": k, "pct": float(v)} for k, v in mm.items()]
 down_h = (vc.get("RECOVERING", 0) + vc.get("BROKEN", 0)) / 60
 out["kpis"] = {
-    "rows": int(len(raw)), "sensors": 52, "start": str(raw.index[0].date()), "end": str(raw.index[-1].date()),
+    "rows": int(len(raw)), "sensors": 52, "start": day_label(raw.index[0]), "end": day_label(raw.index[-1]),
     "days": int(round(len(raw) / 1440)), "failures": len(fails), "down_h": r(down_h),
     "down_pct": r(down_h * 60 / len(raw) * 100, 1),
     "avg_recovery_h": r(np.mean([x["recovery_h"] for x in failures])),

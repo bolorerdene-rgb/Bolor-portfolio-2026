@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from common import ROOT, dump
+from common import ROOT, dump, month_label
 
 D = ROOT / "projects" / "01-olist-ecommerce" / "data"
 
@@ -42,7 +42,7 @@ d["late"] = d.delay > 0
 d["month"] = d.order_purchase_timestamp.dt.to_period("M").astype(str)
 
 edges = [-9999, -14, -7, 0, 3, 7, 9999]
-labels = ["14+ d early", "7-14 d early", "0-7 d early", "1-3 d late", "3-7 d late", "7+ d late"]
+labels = ["14+ d early", "7 to 14 d early", "0 to 7 d early", "1 to 3 d late", "3 to 7 d late", "7+ d late"]
 d["bucket"] = pd.cut(d.delay, edges, labels=labels)
 
 rated = d.dropna(subset=["review_score"])
@@ -99,7 +99,7 @@ out["buckets_by_state"] = bs
 m = d[(d.month >= "2017-01") & (d.month <= "2018-08")].groupby("month")
 mr = rated[(rated.month >= "2017-01") & (rated.month <= "2018-08")].groupby("month")
 out["monthly"] = [
-    {"month": k, "orders": int(m.size()[k]), "late_pct": r(m.late.mean()[k] * 100, 1),
+    {"month": month_label(k), "orders": int(m.size()[k]), "late_pct": r(m.late.mean()[k] * 100, 1),
      "avg_score": r(mr.review_score.mean()[k])}
     for k in m.size().index
 ]

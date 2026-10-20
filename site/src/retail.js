@@ -25,7 +25,7 @@ async function init() {
     h("option", { value: "ALL" }, "All segments"), segNames.map((s) => h("option", { value: s }, s)));
   filters.append(
     h("label", {}, "Highlight segment", select),
-    h("span", { class: "hint" }, "Re-colors the segment chart and the customer scatter. Click a bar to highlight a segment."));
+    h("span", { class: "hint" }, "Recolors the segment chart and the customer scatter. Click a bar to highlight a segment."));
 
   const cards = [];
 
@@ -160,7 +160,7 @@ async function init() {
 
   // ---------- 6. RFM scatter ----------
   const scatterCard = addCard(dash, {
-    title: "Top customers are recent and high-spending (top left); lapsed ones are low-spending (bottom right)",
+    title: "Top customers are recent and high spending (top left); lapsed ones are low spending (bottom right)",
     sub: `A sample of 700 customers. Horizontal axis: days since last order. Vertical axis: total spend in £. Both are log scales. With no segment chosen: blue = Champions, orange = At Risk or Hibernating, grey = the rest.`,
     height: 380, cls: "w12",
     build: (t) => {
@@ -195,8 +195,8 @@ async function init() {
   // ---------- 7. Returns ----------
   const ret = d.returns.slice(0, -1);
   addCard(dash, {
-    title: "Returns and cancellations typically cost 3–9% of gross sales, with a January spike",
-    sub: "Value of cancelled invoices as a % of that month's gross sales, from the raw table before cleaning. December 2011 is left out: it is a 9-day month and mostly books returns from November.",
+    title: "Returns and cancellations typically cost 3 to 9% of gross sales, with a January spike",
+    sub: "Value of cancelled invoices as a % of that month's gross sales, from the raw table before cleaning. December 2011 is left out: it is a 9 day month and mostly books returns from November.",
     height: 300,
     build: (t) => ({
       ...base(t),
@@ -212,7 +212,7 @@ async function init() {
   // ---------- 8. Countries ----------
   addCard(dash, {
     title: `Outside the UK (${k.uk_share}% of revenue), the Netherlands and Ireland lead`,
-    sub: "Revenue from the ten largest non-UK countries.",
+    sub: "Revenue from the ten largest countries outside the UK.",
     height: 300,
     build: (t) => ({
       ...base(t),

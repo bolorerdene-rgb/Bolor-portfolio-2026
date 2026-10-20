@@ -1,5 +1,5 @@
 /* The assistant's knowledge base: every document is text that already appears on this site
-   (write-ups, CV content) or a plain restatement of numbers from the dashboards' own JSON.
+   (writeups, CV content) or a plain restatement of numbers from the dashboards' own JSON.
    Nothing here is generated at question time. */
 import { n0 } from "./fmt.js";
 import {
@@ -61,26 +61,26 @@ export function buildKB(data, charts = [], page = "home") {
     id: "pump-background", kind: "about", title: "Why I know pumps", label: "About me", href: "./#experience",
     body: "<p>Before moving into data, I spent about five years at MZE LLC in Ulaanbaatar: first as a project manager, then as Senior Service Engineer. " +
       "I led the work to make the company a Grundfos Authorized Service Partner, built Mongolia's first certified pump service center and developed a pump testing station. " +
-      "That's why the predictive-maintenance project asks what a technician would ask: how much warning, and how many false alarms.</p>",
+      "That's why the predictive maintenance project asks what a technician would ask: how much warning, and how many false alarms.</p>",
     keys: ["why pumps", "know about pumps", "pump expertise", "domain knowledge", "grundfos", "industrial", "engineering", "mongolia", "why this dataset", "mze"],
   });
   add({
     id: "fit", kind: "about", title: "Am I a good fit?", label: "About me", href: "./#projects",
-    body: "<p>I'd rather show than claim, so here is where I'd point you. For customer-experience work, <a href=\"olist.html\">Delivery vs. satisfaction</a> ties late deliveries to review scores across nine joined tables. " +
-      "For retention and e-commerce work, <a href=\"retail.html\">Segments & retention</a> cleans a messy ledger and segments customers by value. " +
-      "For operations and engineering teams, my pump-service background and the <a href=\"pump.html\">Predictive maintenance</a> project are the closest match. Email me if you'd like to talk it through.</p>",
+    body: "<p>I'd rather show than claim, so here is where I'd point you. For customer experience work, <a href=\"olist.html\">Delivery vs. satisfaction</a> ties late deliveries to review scores across nine joined tables. " +
+      "For retention and ecommerce work, <a href=\"retail.html\">Segments & retention</a> cleans a messy ledger and segments customers by value. " +
+      "For operations and engineering teams, my pump service background and the <a href=\"pump.html\">Predictive maintenance</a> project are the closest match. Email me if you'd like to talk it through.</p>",
     keys: ["good fit", "why should we hire you", "why hire you", "strengths", "biggest strength", "weakness", "suited", "right for the role", "qualified", "customer experience analyst", "dtc", "ecommerce analyst", "business analyst"],
   });
   add({
     id: "ml", kind: "about", title: "Machine learning in these projects", label: "About me", href: "pump.html#struggle-2",
-    body: "<p>In these three projects, the only model I tested was a PCA reconstruction-error model on the pump data. It flagged at most 2 of 7 failures, so I went with a transparent drift-count rule instead, because with seven failures an accuracy score from a fitted model would flatter itself. The other two projects are joins, segmentation and cohort analysis in pandas.</p>",
+    body: "<p>In these three projects, the only model I tested was a PCA reconstruction error model on the pump data. It flagged at most 2 of 7 failures, so I went with a transparent drift count rule instead, because with seven failures an accuracy score from a fitted model would flatter itself. The other two projects are joins, segmentation and cohort analysis in pandas.</p>",
     keys: ["machine learning", "ml", "model", "modeling", "predictive model", "pca", "scikit", "algorithm", "data science", "statistics", "have you used machine learning", "artificial intelligence"],
   });
   add({
     id: "site", kind: "about", title: "How this portfolio was built", label: "About this site", href: "./",
     body: "<p>Each project starts as a Python (pandas) script that cleans a public Kaggle dataset and writes a small JSON summary. " +
       "The site is a static page that draws those summaries as interactive charts with Apache ECharts, hosted on Netlify. " +
-      "Every chart has a table view, and light and dark themes. I wrote all the analysis and the write-ups; every number you see is computed from the data.</p>" +
+      "Every chart has a table view, and light and dark themes. I wrote all the analysis and the writeups; every number you see is computed from the data.</p>" +
       "<p>This assistant is a search over the text on these pages. It doesn't generate answers, so it can only tell you what I've actually written.</p>",
     keys: ["how was this built", "how did you build this website", "technology", "netlify", "echarts", "python", "javascript", "assistant", "chatbot", "how does this work", "source"],
   });
@@ -89,7 +89,7 @@ export function buildKB(data, charts = [], page = "home") {
     id: "start", kind: "about", title: "Where to start", label: "Projects", href: "./#projects",
     body: "<p>If you only have a minute, open <a href=\"olist.html\">Delivery vs. satisfaction</a> for the clearest chart (reviews fall off a cliff once a delivery is a week late). " +
       "<a href=\"retail.html\">Segments & retention</a> shows data cleaning and customer value work. " +
-      "<a href=\"pump.html\">Predictive maintenance</a> is the one that draws most on my pump-service background, and the one where I report a result smaller than the first one I got.</p>",
+      "<a href=\"pump.html\">Predictive maintenance</a> is the one that draws most on my pump service background, and the one where I report a result smaller than the first one I got.</p>",
     keys: ["which project", "where should i start", "best project", "recommend", "first", "favorite", "most impressive", "projects", "portfolio", "what projects do you have", "list"],
   });
 
@@ -129,26 +129,26 @@ export function buildKB(data, charts = [], page = "home") {
     add({
       id: "olist-buckets", kind: "data", project: "olist", title: "Review score by delivery time", label: `${NAMES.olist} · Numbers`, href: "olist.html#dashboard",
       body: "<p>Average review score by how far delivery landed from the promised date:</p><ul>" +
-        d.buckets.map((b) => `<li><b>${b.bucket}:</b> ${b.avg_score} stars (${n0(b.orders)} orders, ${b.low_pct}% gave 1–2 stars)</li>`).join("") + "</ul>",
+        d.buckets.map((b) => `<li><b>${b.bucket}:</b> ${b.avg_score} stars (${n0(b.orders)} orders, ${b.low_pct}% gave 1 to 2 stars)</li>`).join("") + "</ul>",
       keys: ["late delivery", "review score", "stars", "cliff", "how much does late delivery hurt", "satisfaction"],
     });
     const big = d.states.filter((s) => s.orders >= 1000).sort((a, z) => z.late_pct - a.late_pct).slice(0, 5);
     add({
       id: "olist-states", kind: "data", project: "olist", title: "Which states have the most late deliveries", label: `${NAMES.olist} · Numbers`, href: "olist.html#dashboard",
-      body: `<p>Among states with 1,000+ orders, the highest late-delivery rates are ` +
+      body: `<p>Among states with 1,000+ orders, the highest late delivery rates are ` +
         big.map((s) => `<b>${s.state}</b> (${s.late_pct}%, ${s.avg_days} days on average)`).join(", ") +
         `. Brazil overall is ${d.kpis.late_pct}% late. The dashboard has a state filter.</p>`,
       keys: ["region", "geography", "slowest", "where", "state", "worst", "north", "northeast"],
     });
     const lowC = d.categories.slice(0, 3);
     add({
-      id: "olist-cats", kind: "data", project: "olist", title: "Lowest-rated product categories", label: `${NAMES.olist} · Numbers`, href: "olist.html#dashboard",
-      body: `<p>The lowest-rated categories (400+ rated orders) are ` + lowC.map((c) => `<b>${c.category}</b> (${c.avg_score} stars, ${c.late_pct}% late)`).join(", ") + ".</p>",
+      id: "olist-cats", kind: "data", project: "olist", title: "Lowest rated product categories", label: `${NAMES.olist} · Numbers`, href: "olist.html#dashboard",
+      body: `<p>The lowest rated categories (400+ rated orders) are ` + lowC.map((c) => `<b>${c.category}</b> (${c.avg_score} stars, ${c.late_pct}% late)`).join(", ") + ".</p>",
       keys: ["product", "category", "worst rated", "lowest rated"],
     });
     add({
       id: "olist-data", kind: "data", project: "olist", title: "What data this project uses", label: `${NAMES.olist} · Data`, href: "olist.html",
-      body: `<p>The Olist Brazilian e-commerce public dataset from Kaggle: nine related tables covering ${n0(d.facts.orders_total)} orders from 2016 to 2018 (orders, items, customers, sellers, products, payments, reviews, geolocation and a category translation table). I analyzed the ${n0(d.kpis.delivered_orders)} delivered orders.</p>`,
+      body: `<p>The Olist Brazilian ecommerce public dataset from Kaggle: nine related tables covering ${n0(d.facts.orders_total)} orders from 2016 to 2018 (orders, items, customers, sellers, products, payments, reviews, geolocation and a category translation table). I analyzed the ${n0(d.kpis.delivered_orders)} delivered orders.</p>`,
       keys: ["dataset", "data source", "kaggle", "where is the data from", "how many orders", "how big", "tables"],
     });
   }
@@ -156,7 +156,7 @@ export function buildKB(data, charts = [], page = "home") {
     const d = data.retail;
     add({
       id: "retail-rfm", kind: "data", project: "retail", title: "What RFM segmentation is", label: `${NAMES.retail} · Method`, href: "retail.html#did",
-      body: "<p>RFM scores every customer on three things: <b>Recency</b> (how recently they bought), <b>Frequency</b> (how often) and <b>Monetary value</b> (how much they spent). Each is scored 1–5, and the combinations are grouped into six named segments, from Champions down to Hibernating.</p>",
+      body: "<p>RFM scores every customer on three things: <b>Recency</b> (how recently they bought), <b>Frequency</b> (how often) and <b>Monetary value</b> (how much they spent). Each is scored 1 to 5, and the combinations are grouped into six named segments, from Champions down to Hibernating.</p>",
       keys: ["rfm", "recency", "frequency", "monetary", "what is rfm", "explain", "segmentation", "how are segments defined"],
     });
     add({
@@ -195,7 +195,7 @@ export function buildKB(data, charts = [], page = "home") {
     const net = coveredH * 0.5 * 5000 - falseAlerts * 2 * 120;
     add({
       id: "pump-calc", kind: "data", project: "pump", title: "What the warning is worth (cost model)", label: `${NAMES.pump} · Calculator`, href: "pump.html#dashboard",
-      body: `<p>The page has an adjustable downtime-cost calculator. The ${coveredH.toFixed(0)} downtime hours in the failures the alert flagged come from the data. Dollar inputs are placeholders: with $5,000 per hour of downtime, half of it avoidable, and 2 technician hours at $120 per false alert, the net value is about $${n0(Math.round(net))} over the ${k.days} days. Change the inputs to a real plant's numbers to get a real answer.</p>`,
+      body: `<p>The page has an adjustable downtime cost calculator. The ${coveredH.toFixed(0)} downtime hours in the failures the alert flagged come from the data. Dollar inputs are placeholders: with $5,000 per hour of downtime, half of it avoidable, and 2 technician hours at $120 per false alert, the net value is about $${n0(Math.round(net))} over the ${k.days} days. Change the inputs to a real plant's numbers to get a real answer.</p>`,
       keys: ["cost", "money", "savings", "roi", "value", "business impact", "dollars", "worth", "calculator", "how much would it save"],
     });
     add({

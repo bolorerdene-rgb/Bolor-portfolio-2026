@@ -10,10 +10,10 @@ async function init() {
   const d = await loadJSON("olist");
   const k = d.kpis;
   const { filters, dash } = projectPage("olist", olistText, d, [
-    { value: n0(k.delivered_orders), label: "Delivered orders analyzed", note: "2016 – 2018" },
+    { value: n0(k.delivered_orders), label: "Delivered orders analyzed", note: "2016 to 2018" },
     { value: `${k.avg_score} / 5`, label: "Average review score" },
     { value: `${k.late_pct}%`, label: "Delivered after the promised date" },
-    { value: `${(k.score_on_time - k.score_late).toFixed(2)} stars`, label: "Score gap, on-time vs. late" },
+    { value: `${(k.score_on_time - k.score_late).toFixed(2)} stars`, label: "Score gap, on time vs. late" },
     { value: `${k.median_days_early} days`, label: "Median delivery before the promise", note: "estimates are padded" },
   ]);
 
@@ -73,8 +73,8 @@ async function init() {
   }));
 
   cards.push(addCard(dash, {
-    title: "Late orders turn 5-star customers into 1-star customers",
-    sub: "Share of reviews at each star rating, on-time vs. late orders (100% each).",
+    title: "Late orders turn 5 star customers into 1 star customers",
+    sub: "Share of reviews at each star rating, on time vs. late orders (100% each).",
     height: 330,
     build: (t) => {
       const D = dist();
@@ -153,7 +153,7 @@ async function init() {
 
   const months = d.monthly.map((m) => m.month);
   cards.push(addCard(dash, {
-    title: "The months with late-delivery spikes (Nov 2017, Feb–Mar 2018) are the months with the lowest review scores",
+    title: "The months with late delivery spikes (Nov 2017, Feb to Mar 2018) are the months with the lowest review scores",
     sub: "Three views of the same months, stacked so each keeps its own scale.",
     height: 520, cls: "w12",
     build: (t) => {
@@ -189,7 +189,7 @@ async function init() {
   const low = d.categories.slice(0, 10);
   cards.push(addCard(dash, {
     title: "Which product categories are rated lowest?",
-    sub: `The ten lowest-rated categories with 400+ rated orders. Axis starts at 3 to make the gaps visible.`,
+    sub: `The ten lowest rated categories with 400+ rated orders. Axis starts at 3 to make the gaps visible.`,
     height: 360,
     build: (t) => ({
       ...base(t),
@@ -211,7 +211,7 @@ async function init() {
   const byLate = [...d.states].sort((a, z) => z.late_pct - a.late_pct);
   const stateCard = addCard(dash, {
     title: "Late deliveries cluster in the northeast and in Rio de Janeiro",
-    sub: "Late-delivery rate by customer state. Orange = the state selected in the filter. Click a bar to filter.",
+    sub: "Late delivery rate by customer state. Orange = the state selected in the filter. Click a bar to filter.",
     height: 360,
     build: (t) => ({
       ...base(t),
@@ -242,12 +242,12 @@ async function init() {
   const xmax = Math.max(...pts.map((p) => p[1]));
   cards.push(addCard(dash, {
     title: "Sellers who ship late get worse reviews",
-    sub: `Each dot is a seller with 40+ rated orders (${pts.length} sellers); dot size = order volume. The grey line is a straight-line fit: roughly ${Math.abs(slope * 10).toFixed(2)} stars lost per 10 points of late rate.`,
+    sub: `Each dot is a seller with 40+ rated orders (${pts.length} sellers); dot size = order volume. The grey line is a straight line fit: roughly ${Math.abs(slope * 10).toFixed(2)} stars lost per 10 points of late rate.`,
     height: 380, cls: "w12",
     build: (t) => ({
       ...base(t),
       grid: { top: 16, left: 52, right: 20, bottom: 40 },
-      xAxis: valAxis(t, { name: "Seller late-delivery rate (%)", nameLocation: "middle", nameGap: 28, nameTextStyle: { color: t.muted }, min: 0, splitLine: { show: false }, axisLabel: { color: t.muted, fontSize: 11, formatter: "{value}%" } }),
+      xAxis: valAxis(t, { name: "Seller late delivery rate (%)", nameLocation: "middle", nameGap: 28, nameTextStyle: { color: t.muted }, min: 0, splitLine: { show: false }, axisLabel: { color: t.muted, fontSize: 11, formatter: "{value}%" } }),
       yAxis: valAxis(t, { name: "Avg review score", nameTextStyle: { color: t.muted, align: "left" }, min: 1, max: 5, interval: 1 }),
       tooltip: { ...base(t).tooltip, trigger: "item", formatter: (p) => (p.seriesType === "scatter" ? tipHead(`Seller with ${n0(p.value[2])} orders`) + tipRow(t.s[0], "avg score", f1(p.value[1])) + `<div style="margin-top:4px;opacity:.7">${p.value[0]}% of orders late</div>` : "") },
       series: [

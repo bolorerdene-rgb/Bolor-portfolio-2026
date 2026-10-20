@@ -37,7 +37,7 @@ main.append(
   h("hr", { class: "rule" }),
   h("section", { class: "block", id: "projects" }, h("div", { class: "wrap" },
     h("h2", {}, "Projects"),
-    h("p", { class: "section-sub" }, "Three real datasets, three different questions. Each opens a live dashboard with a plain-language write-up and the problems I ran into."),
+    h("p", { class: "section-sub" }, "Three real datasets, three different questions. Each opens a live dashboard with a plain language writeup and the problems I ran into."),
     h("div", { class: "proj-grid", id: "proj-grid" },
       projects.map((p) =>
         h("a", { class: "proj-card", href: p.href, "data-key": p.key },

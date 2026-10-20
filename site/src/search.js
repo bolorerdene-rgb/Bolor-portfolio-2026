@@ -11,7 +11,7 @@ export function stem(w) {
 }
 
 export function tokens(text) {
-  return text.toLowerCase().replace(/<[^>]+>/g, " ").replace(/[^a-z0-9%]+/g, " ").split(" ")
+  return text.toLowerCase().replace(/e-commerce/g, "ecommerce").replace(/write-?ups?/g, "writeup").replace(/<[^>]+>/g, " ").replace(/[^a-z0-9%]+/g, " ").split(" ")
     .filter((t) => t && !STOP.has(t)).map(stem);
 }
 
@@ -39,7 +39,7 @@ const GROUPS = [
   "segment group cluster tier",
   "chart graph plot visual dashboard visualization",
   "cost saving save value worth roi",
-  "ai llm chatbot language-model",
+  "ai llm chatbot",
 ].map((g) => g.split(" ").map(stem));
 
 const groupOf = new Map();
