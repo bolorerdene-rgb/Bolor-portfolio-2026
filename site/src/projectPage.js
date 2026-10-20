@@ -19,15 +19,15 @@ export function projectPage(key, text, data, kpis) {
   tiles(wrap, kpis);
 
   wrap.append(h("div", { class: "story" },
-    h("section", { class: "panel" }, h("h2", {}, "What I did"), listOf(text.did(data), "ol")),
-    h("section", { class: "panel" }, h("h2", {}, "What I found"), listOf(text.findings(data)))));
+    h("section", { class: "panel", id: "did" }, h("h2", {}, "What I did"), listOf(text.did(data), "ol")),
+    h("section", { class: "panel", id: "found" }, h("h2", {}, "What I found"), listOf(text.findings(data)))));
 
   const filters = h("div", { class: "filters", role: "group", "aria-label": "Dashboard filters" });
   const dash = h("div", { class: "dash" });
-  wrap.append(h("h2", { class: "section-title", style: "margin-top:44px" }, "Live dashboard"), filters, dash);
+  wrap.append(h("h2", { class: "section-title", style: "margin-top:44px", id: "dashboard" }, "Live dashboard"), filters, dash);
 
   wrap.append(
-    h("h2", { class: "section-title", style: "margin-top:56px" }, "What went wrong, and what I did about it"),
+    h("h2", { class: "section-title", style: "margin-top:56px", id: "struggles" }, "What went wrong, and what I did about it"),
     h("p", { class: "section-sub" }, "Every dataset fought back. These are the problems that changed how I analyzed it."));
   struggles(wrap, text.struggles(data));
 

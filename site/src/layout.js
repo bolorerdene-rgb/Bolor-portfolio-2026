@@ -11,6 +11,8 @@ const NAV = [
 const SUN = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
 const MOON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
 
+const CHAT = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/></svg>';
+
 export function h(tag, attrs = {}, ...kids) {
   const el = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs || {})) {
@@ -54,6 +56,12 @@ export function mountShell(page) {
     h("div", { class: "wrap" },
       h("span", {}, `© ${new Date().getFullYear()} ${profile.name}`),
       h("span", {}, "Analysis in Python (pandas) · charts in Apache ECharts · data from public Kaggle datasets")));
-  app.replaceChildren(header, main, footer);
+  const launcher = h("button", { class: "asst-launcher", type: "button", "aria-haspopup": "dialog", "aria-expanded": "false" },
+    h("span", { html: CHAT, "aria-hidden": "true" }), h("span", {}, "Ask about my projects"));
+  const prefetch = () => import("./assistant.js");
+  launcher.addEventListener("pointerenter", prefetch, { once: true });
+  launcher.addEventListener("focus", prefetch, { once: true });
+  launcher.addEventListener("click", async () => (await import("./assistant.js")).toggleAssistant({ page, launcher }));
+  app.replaceChildren(header, main, footer, launcher);
   return main;
 }

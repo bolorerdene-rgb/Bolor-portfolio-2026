@@ -7,6 +7,7 @@ import {
 import { CanvasRenderer } from "echarts/renderers";
 import { h } from "./layout.js";
 import { n0, loadJSON } from "./fmt.js";
+import { pageCharts } from "./registry.js";
 
 echarts.use([
   BarChart, LineChart, ScatterChart, HeatmapChart, TreemapChart, GridComponent, TooltipComponent,
@@ -104,10 +105,12 @@ export function buildTable(spec) {
 /* A dashboard card: title states the finding, subtitle says how to read it, and every
    chart has a "Table" twin so no value is reachable only through hover. */
 export function addCard(parent, { title, sub, height = 320, cls = "", build, table }) {
+  const id = `chart-${pageCharts.length + 1}`;
+  pageCharts.push({ id, title, sub: sub || "" });
   const plot = h("div", { class: "plot", style: `height:${height}px` });
   const wrap = h("div", { class: "tablewrap", hidden: true });
   const btn = h("button", { class: "tbl-btn", type: "button", "aria-pressed": "false", "aria-label": `Show data table for: ${title}` }, "Table");
-  const card = h("section", { class: `card ${cls}` },
+  const card = h("section", { class: `card ${cls}`, id },
     h("div", { class: "card-head" }, h("div", {}, h("h3", {}, title), sub ? h("p", { class: "sub" }, sub) : null), table ? btn : null),
     plot, wrap);
   parent.append(card);
@@ -140,7 +143,7 @@ export function listOf(items, tag = "ul") {
 
 export function struggles(parent, items) {
   parent.append(h("div", { class: "struggles" }, items.map((s, i) =>
-    h("article", { class: "struggle" },
+    h("article", { class: "struggle", id: `struggle-${i + 1}` },
       h("h3", {}, h("span", {}, String(i + 1).padStart(2, "0")), s.title),
       h("p", { html: s.problem }),
       h("p", { class: "fix", html: `<b>What I did:</b> ${s.fix}` })))));
