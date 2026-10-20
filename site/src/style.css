@@ -124,7 +124,9 @@ button, select, input { font: inherit; color: inherit; }
 /* ---------- hero ---------- */
 .hero { padding: 72px 0 40px; }
 .eyebrow { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-ink); font-weight: 600; margin-bottom: 14px; }
-.hero h1 { font-size: clamp(34px, 5.4vw, 58px); max-width: 17ch; }
+.hero-name { font-size: clamp(26px, 3.4vw, 36px); letter-spacing: -0.02em; margin-bottom: 6px; }
+.hero .eyebrow { margin-bottom: 22px; }
+.hero-headline { font-size: clamp(34px, 5.4vw, 58px); max-width: 17ch; }
 .hero .lede { margin-top: 20px; max-width: 62ch; font-size: 18px; color: var(--ink2); }
 .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
 .btn {

@@ -17,8 +17,9 @@ const timeline = (rows) =>
 main.append(
   h("section", { class: "hero" }, h("div", { class: "wrap hero-grid" },
     h("div", { class: "hero-text" },
-      h("div", { class: "eyebrow" }, `${profile.role} · portfolio`),
-      h("h1", {}, profile.headline),
+      h("h1", { class: "hero-name" }, profile.name),
+      h("div", { class: "eyebrow" }, `${profile.role} · Los Angeles, California`),
+      h("h2", { class: "hero-headline" }, profile.headline),
       h("p", { class: "lede" }, profile.lede),
       h("div", { class: "cta" },
         h("a", { class: "btn primary", href: "#projects" }, "See the live dashboards"),
